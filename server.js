@@ -1,6 +1,6 @@
 const express = require('express');
 const crypto = require('crypto');
-const storeHash = require('./algorand');
+const {storeHash}= require('./algorand');
 
 const app = express();
 app.use(express.json());
@@ -16,16 +16,22 @@ app.post('/issue', async (req, res) => {
     try {
         const { name, skill, issuer } = req.body;
 
+        console.log("Received:", name, skill, issuer);
+
         // combine certificate data
         const data = name + skill + issuer;
 
-        // create fingerprint
+        // create fingerprint (certificate hash)
         const hash = crypto.createHash('sha256')
             .update(data)
             .digest('hex');
 
-        // send to blockchain
+        console.log("Generated hash:", hash);
+
+        // send hash to blockchain
         const txId = await storeHash(hash);
+
+        console.log("Transaction ID:", txId);
 
         res.json({
             certificateHash: hash,
@@ -33,8 +39,13 @@ app.post('/issue', async (req, res) => {
         });
 
     } catch (error) {
+
+        console.error("BLOCKCHAIN ERROR BELOW ↓↓↓↓↓");
         console.error(error);
-        res.status(500).send("Error issuing certificate");
+
+        res.status(500).json({
+            error: error.message
+        });
     }
 });
 
