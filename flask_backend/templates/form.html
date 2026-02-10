@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Form</title>
+
+    <style>
+        body {
+            background-color: #eaf6ff;
+            font-size: 110%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .form-box {
+            background-color: white;
+            width: 50%;
+            height: 70%;
+            padding: 40px;
+            border-radius: 12px;
+            box-sizing: border-box;
+            overflow-y: auto;
+        }
+
+        h2 {
+            text-align: center;   /* centers the heading text */
+        }
+    </style>
+
+</head>
+<body>
+
+    <div class="form-box">
+
+        <h2>User Information Form</h2>
+
+        <form action="achievements.html" method="post">
+            <label>Name:</label><br>
+            <input type="text" name="username" placeholder="Enter your name"><br><br>
+
+            <label>Email:</label><br>
+            <input type="email" name="email" placeholder="Enter your email"><br><br>
+
+            <label>CNUM:</label><br>
+            <input type="text" name="cnum" placeholder="Enter your CNUM"><br><br>
+
+            <label>Branch:</label><br>
+            <select name="branch">
+                <option value="">-- Select Branch --</option>
+                <option value="entc">E&TC</option>
+                <option value="cs">Computer</option>
+                <option value="it">IT</option>
+                <option value="mech">Mechanical</option>
+                <option value="civil">Civil</option>
+            </select><br><br>
+
+            <label>Current Year:</label><br>
+            <select name="year">
+                <option value="">-- Select Year --</option>
+                <option value="fy">First Year</option>
+                <option value="sy">Second Year</option>
+                <option value="ty">Third Year</option>
+                <option value="final">Final Year</option>
+            </select><br><br>
+
+            <label>Gender:</label><br>
+            <input type="radio" name="gender" value="male"> Male
+            <input type="radio" name="gender" value="female"> Female<br><br>
+
+            <label>Password:</label><br>
+            <input type="password" name="password"><br><br>
+
+            <input type="submit" value="Submit">
+        </form>
+
+        <br>
+        <a href="index.html">Back to Home</a>
+
+    </div>
+
+</body>
+</html>
