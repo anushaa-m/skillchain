@@ -1,3 +1,15 @@
-node_modules
+# python
+venv/
+__pycache__/
+*.pyc
+
+# runtime database
+flask_backend/database.json
+
+# secrets
 .env
-algorand-wallet.txt
+node_modules/
+
+# OS junk
+.DS_Store
+Thumbs.db
