@@ -20,21 +20,23 @@ def write_db(data):
     with open(DB, "w") as f:
         json.dump(data, f, indent=4)
 
-def send_to_blockchain(hash_value, creator, teammate):
+def send_to_blockchain(hash_value, creator, teammate, event):
 
-    url = "http://localhost:3000/verify"
+    url = "http://localhost:3000/issue"
 
     payload = {
-        "hash": hash_value,
-        "creator": creator,
-        "teammate": teammate
+        "name": creator,
+        "skill": event,
+        "issuer": teammate
     }
 
     try:
         res = requests.post(url, json=payload)
         return res.json()
-    except:
+    except Exception as e:
+        print("BLOCKCHAIN ERROR:", e)
         return {"error": "Blockchain server not running"}
+
     
 # Health route
 @app.route("/")
@@ -82,7 +84,9 @@ def verify(id):
             result = send_to_blockchain(
                 activity["hash"],
                 activity["creator_wallet"],
-                activity["teammate_wallet"]
+                activity["teammate_wallet"],
+                activity["event"]
+                
             )
 
             # Store txid
