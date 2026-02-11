@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Achievements and Certificates</title>
+        <style>
+            body{
+                background-color: #eaf6ff;
+                font-size: 110%;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                height: 100vh;
+                margin: 0;
+            }
+
+            .form-box
+            {
+                background-color: white;
+                width: 60%;
+                height: 80%;
+                padding: 40px;
+                border-radius: 12px;
+                box-sizing: border-box;
+                overflow-y: auto;
+            }
+
+            h2{
+                text-align: center;
+            }
+
+            h4{
+                text-align: center;
+                color: gray;
+                margin-top: -10px;
+            }
+
+            h3{
+                margin-top: 30px;
+                border-bottom: 1px solid #ddd;
+                padding-bottom: 5px;
+            }
+
+            .required{
+                color: red;
+                font-weight: bold;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="form-box">
+            <h2>Student Credentials and Achievements</h2>
+            <h4>Add your verified work details below</h4>
+            <form>
+                <h3>Certificates</h3>
+                <label>Certificate Title: <span class="required">*</span></label><br>
+                <input type="text" name="cert_title" required><br><br>
+                <label>Issuing Organization: <span class="required">*</span></label><br>
+                <input type="text" name="cert_org" required><br><br>
+                <label>Date of Issue: <span class="required">*</span></label><br>
+                <input type="date" name="cert_date" required><br><br>
+                <label>Upload Certificate: <span class="required">*</span></label><br>
+                <input type="file" name="cert_file" required><br><br>
+                <label>Verification status: <span class="required">*</span></label><br>
+                <select name="cert_status" required>
+                    <option value="pending">Pending</option>
+                    <option value="verified">Verified</option>
+                </select><br><br>
+
+                <h3>Hackathons/Projects</h3>
+                <label>Event / Project Name: <span class="required">*</span></label><br>
+                <input type="text" name="project_name" required><br><br>
+                <label>Your Role: <span class="required">*</span></label><br>
+                <input type="text" name="project_role" required><br><br>
+                <label>Description: <span class="required">*</span></label><br>
+                <textarea name="project_desc" rows="4"></textarea><br><br>
+                <label>Start Date: <span class="required">*</span></label><br>
+                <input type="date" name="start_date" required><br><br>
+                <label>End Date: <span class="required">*</span></label><br>
+                <input type="date" name="end_date required"><br><br>
+                <label>Teammate Names: <span class="required">*</span></label><br>
+                <input type="text" name="team_names" required><br><br>
+                <label>Project Link: <span class="required">*</span></label><br>
+                <input type="url" name="project_link" required><br><br>
+                <label>Upload Proof: <span class="required">*</span></label><br>
+                <input type="file" name="project_proof" required><br><br>
+
+                <h3>Skills</h3>
+                <label>Skill Name: <span class="required">*</span></label><br>
+                <input type="text" name="skill_name" required><br><br>
+                <label>Skill Level: <span class="required">*</span></label><br>
+                <select name="skill_level" required>
+                    <option value="beginner">Beginner</option>
+                    <option value="intermediate">Intermediate</option>
+                    <option value="advanced">Advanced</option>
+                </select><br><br>
+
+                <h3>Achievements</h3>
+                <label>Achievement Title: <span class="required">*</span></label><br>
+                <input type="text" name="achievement_title" required><br><br>
+                <label>Category: <span class="required">*</span></label><br>
+                <select name="achievement_category" required>
+                    <option value="academic">Academic</option>
+                    <option value="sports">Sports</option>
+                    <option value="technical">Technical</option>
+                    <option value="cultural">Cultural</option>
+                </select><br><br>
+                <label>Position: <span class="required">*</span></label><br>
+                <input type="text" name="achievement_position" required><br><br>
+                <label>Year: <span class="required">*</span></label><br>
+                <input type="number" name="achievement_year" required><br><br>
+                <label>Upload Proof: <span class="required">*</span></label><br>
+                <input type="file" name="achievement_proof" required><br><br>
+
+                <label>CGPA: <span class="required">*</span></label><br>
+                <input type="text" name="cgpa" required><br><br>
+                <label>Additional Certifications: <span class="required">*</span></label><br>
+                <input type="text" name="additional_certs" required><br><br>
+                <label>LinkedIn URL: <span class="required">*</span></label><br>
+                <input type="url" name="linkedin" required><br><br>
+                <label>GitHub URL: <span class="required">*</span></label><br>
+                <input type="url" name="github" required><br><br>
+
+                <input type="submit" value="Save & Continue">
+                <input type="reset" value="Clear">
+            </form>
+            <br>
+        </div>
+    </body>
+</html>
