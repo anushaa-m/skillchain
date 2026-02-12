@@ -201,8 +201,11 @@ We replace institutional trust with cryptographic proof.
 ---
 
 ## 👥 Team
+Team Lead: Anusha Malhotra(blockchain & backend integration)
+Saloni Tiwari(backend)
+Rachana Wagh( frontend and documentation)
+Anushree Chatur(frontend)
 
-SkillChain Hackathon Project
 
 ---
 
