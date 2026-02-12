@@ -2,12 +2,12 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Form</title>
+    <title>User Information</title>
 
     <style>
         body {
-            background-color: #eaf6ff;
-            font-size: 110%;
+            background-color: #eaf6ff;   /* Light blue background */
+            font-size: 150%;             /* Bigger text */
             display: flex;
             justify-content: center;
             align-items: center;
@@ -17,8 +17,8 @@
 
         .form-box {
             background-color: white;
-            width: 50%;
-            height: 70%;
+            width: 50%;                  /* Half screen width */
+            height: 75%;                 /* Large rectangle */
             padding: 40px;
             border-radius: 12px;
             box-sizing: border-box;
@@ -26,7 +26,19 @@
         }
 
         h2 {
-            text-align: center;   /* centers the heading text */
+            text-align: center;          /* Center title */
+        }
+
+        input, select {
+            font-size: 90%;
+            padding: 6px;
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        input[type="submit"] {
+            margin-top: 15px;
+            cursor: pointer;
         }
     </style>
 
@@ -35,49 +47,44 @@
 
     <div class="form-box">
 
-        <h2>User Information Form</h2>
+        <h2>User Information</h2>
 
-        <form action="achievements.html" method="post">
+        <form action="/create_user" method="POST">
+
             <label>Name:</label><br>
-            <input type="text" name="username" placeholder="Enter your name"><br><br>
+            <input type="text" name="name" required><br><br>
 
             <label>Email:</label><br>
-            <input type="email" name="email" placeholder="Enter your email"><br><br>
+            <input type="email" name="email" required><br><br>
 
-            <label>CNUM:</label><br>
-            <input type="text" name="cnum" placeholder="Enter your CNUM"><br><br>
+            <label>Contact Number:</label><br>
+            <input type="text" name="number"><br><br>
 
             <label>Branch:</label><br>
-            <select name="branch">
+            <select name="branch" required>
                 <option value="">-- Select Branch --</option>
-                <option value="entc">E&TC</option>
-                <option value="cs">Computer</option>
-                <option value="it">IT</option>
-                <option value="mech">Mechanical</option>
-                <option value="civil">Civil</option>
+                <option value="E&TC">E&TC</option>
+                <option value="Computer">Computer</option>
+                <option value="IT">IT</option>
+                <option value="Mechanical">Mechanical</option>
+                <option value="Civil">Civil</option>
             </select><br><br>
 
             <label>Current Year:</label><br>
-            <select name="year">
+            <select name="year" required>
                 <option value="">-- Select Year --</option>
-                <option value="fy">First Year</option>
-                <option value="sy">Second Year</option>
-                <option value="ty">Third Year</option>
-                <option value="final">Final Year</option>
+                <option value="FY">First Year</option>
+                <option value="SY">Second Year</option>
+                <option value="TY">Third Year</option>
+                <option value="Final">Final Year</option>
             </select><br><br>
 
-            <label>Gender:</label><br>
-            <input type="radio" name="gender" value="male"> Male
-            <input type="radio" name="gender" value="female"> Female<br><br>
-
             <label>Password:</label><br>
-            <input type="password" name="password"><br><br>
+            <input type="password" name="password" required><br><br>
 
             <input type="submit" value="Submit">
-        </form>
 
-        <br>
-        <a href="index.html">Back to Home</a>
+        </form>
 
     </div>
 

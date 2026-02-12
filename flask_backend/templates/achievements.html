@@ -51,16 +51,18 @@
         <div class="form-box">
             <h2>Student Credentials and Achievements</h2>
             <h4>Add your verified work details below</h4>
-            <form>
+            <form action="/create_achievement"
+                  method="POST"
+                  enctype="multipart/form-data">
                 <h3>Certificates</h3>
                 <label>Certificate Title: <span class="required">*</span></label><br>
-                <input type="text" name="cert_title" required><br><br>
+                <input type="text" name="event" required><br><br>
                 <label>Issuing Organization: <span class="required">*</span></label><br>
                 <input type="text" name="cert_org" required><br><br>
                 <label>Date of Issue: <span class="required">*</span></label><br>
                 <input type="date" name="cert_date" required><br><br>
                 <label>Upload Certificate: <span class="required">*</span></label><br>
-                <input type="file" name="cert_file" required><br><br>
+                <input type="file" name="certificate" required><br><br>
                 <label>Verification status: <span class="required">*</span></label><br>
                 <select name="cert_status" required>
                     <option value="pending">Pending</option>
