@@ -1,4 +1,4 @@
-from flask import Flask, request, jsonify, render_template
+from flask import Flask, request, jsonify, render_template, redirect, url_for
 import json
 import os
 import requests
@@ -12,10 +12,23 @@ DB = os.path.join(BASE_DIR, "database.json")
 
 def read_db():
     if not os.path.exists(DB):
-        return {"users": [], "achievements": []}
+        data = {"users": [], "achievements": []}
+        with open(DB, "w") as f:
+            json.dump(data, f, indent=4)
+        return data
 
-    with open(DB, "r") as f:
-        return json.load(f)
+    # file exists but might be empty/corrupt
+    try:
+        with open(DB, "r") as f:
+            return json.load(f)
+    except:
+        data = {"users": [], "achievements": []}
+        with open(DB, "w") as f:
+            json.dump(data, f, indent=4)
+        return data
+
+
+
 
 
 def write_db(data):
@@ -23,19 +36,33 @@ def write_db(data):
         json.dump(data, f, indent=4)
 
 
-def send_to_blockchain(hash_value, event):
-    url = "http://localhost:3000/issue"
+def send_to_blockchain(hash_value, creator, teammate, event):
+
+    url = "http://127.0.0.1:3000/issue"
 
     payload = {
-        "hash": hash_value,
-        "event": event
+        "name": creator,
+        "skill": event,
+        "issuer": teammate
     }
 
     try:
-        res = requests.post(url, json=payload)
+        print("Sending to blockchain:", payload)
+
+        res = requests.post(url, json=payload, timeout=30)
+
+        print("NODE RESPONSE:", res.text)
+
         return res.json()
-    except Exception:
-        return {"error": "Blockchain server not running"}
+
+    except requests.exceptions.ConnectionError:
+        print("Node server is not running!")
+        return {"transactionID": None}
+
+    except Exception as e:
+        print("BLOCKCHAIN ERROR:", e)
+        return {"transactionID": None}
+
 
 
 @app.route("/")
@@ -82,7 +109,22 @@ def create_achievement():
     db["achievements"].append(achievement)
     write_db(db)
 
-    return jsonify(achievement)
+    # 🔥 SEND TO BLOCKCHAIN IMMEDIATELY
+    result = send_to_blockchain(
+        hash_value,
+        "Student",
+        "SkillChain",
+        event
+    )
+
+    # 🔥 STORE TXID
+    db = read_db()
+    db["achievements"][-1]["txid"] = result.get("transactionID")
+    db["achievements"][-1]["status"] = "verified"
+    write_db(db)
+
+    return redirect(url_for("achievements_page"))
+
 
 
 @app.route("/verify/<int:id>", methods=["POST"])
@@ -92,12 +134,16 @@ def verify(id):
     for achievement in db["achievements"]:
         if achievement["id"] == id:
 
-            result = send_to_blockchain(
+            result=send_to_blockchain(
                 achievement["hash"],
+                "Student",
+                "SkillChain",
                 achievement["event"]
+                
             )
+            
 
-            achievement["txid"] = result.get("txid")
+            achievement["txid"] = result.get("transactionID")
             achievement["status"] = "verified"
 
     write_db(db)
