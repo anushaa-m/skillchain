@@ -27,37 +27,32 @@ def read_db():
             json.dump(data, f, indent=4)
         return data
 
-
-
-
-
 def write_db(data):
     with open(DB, "w") as f:
         json.dump(data, f, indent=4)
 
 
-def send_to_blockchain(hash_value, creator, teammate, event):
+def send_to_blockchain(hash_value):
 
     url = "http://127.0.0.1:3000/issue"
 
     payload = {
-        "name": creator,
-        "skill": event,
-        "issuer": teammate
+        "hash": hash_value
     }
 
     try:
         print("Sending to blockchain:", payload)
 
         res = requests.post(url, json=payload, timeout=30)
-
+        
+        print("STATUS:", res.status_code)
         print("NODE RESPONSE:", res.text)
-
-        return res.json()
-
-    except requests.exceptions.ConnectionError:
-        print("Node server is not running!")
-        return {"transactionID": None}
+        
+        data= res.json()
+        
+        print("PARSED JSON:", data)
+        
+        return data
 
     except Exception as e:
         print("BLOCKCHAIN ERROR:", e)
@@ -98,6 +93,7 @@ def create_achievement():
 
     hash_value = generate_hash(file)
 
+    # create record FIRST
     achievement = {
         "id": len(db["achievements"]) + 1,
         "event": event,
@@ -109,46 +105,59 @@ def create_achievement():
     db["achievements"].append(achievement)
     write_db(db)
 
-    # 🔥 SEND TO BLOCKCHAIN IMMEDIATELY
-    result = send_to_blockchain(
-        hash_value,
-        "Student",
-        "SkillChain",
-        event
-    )
+    # SEND TO BLOCKCHAIN
+    result = send_to_blockchain(hash_value)
 
-    # 🔥 STORE TXID
+    # RELOAD DB FROM FILE (CRITICAL)
     db = read_db()
-    db["achievements"][-1]["txid"] = result.get("transactionID")
-    db["achievements"][-1]["status"] = "verified"
+
+    # update the ACTUAL stored record
+    for a in db["achievements"]:
+        if a["hash"] == hash_value:
+            a["txid"] = result.get("transactionID")
+            a["status"] = "verified"
+
     write_db(db)
 
     return redirect(url_for("achievements_page"))
 
 
+@app.route("/verify", methods=["GET", "POST"])
+def verify_page():
 
-@app.route("/verify/<int:id>", methods=["POST"])
-def verify(id):
+    # when user opens the page
+    if request.method == "GET":
+        return render_template("verify.html")
+
+    # when user uploads certificate
+    file = request.files.get("certificate")
+    if not file or file.filename == "":
+        return "<h2 style='color:red;text-align:center;'>No file uploaded</h2>"
+
+    uploaded_hash = generate_hash(file)
+    print("UPLOADED HASH:", uploaded_hash)
+
     db = read_db()
 
     for achievement in db["achievements"]:
-        if achievement["id"] == id:
+        if achievement["hash"] == uploaded_hash:
+            return f"""
+            <div style="text-align:center;margin-top:80px;font-family:sans-serif;">
+            <h1 style="color:#00ff88;">✓ CERTIFICATE VERIFIED</h1>
+            <p>This certificate exists on SkillChain blockchain.</p>
+            <p><b>Transaction ID:</b></p>
+            <p style="word-wrap:break-word;width:70%;margin:auto;">{achievement['txid']}</p>
+            </div>
+            """
 
-            result=send_to_blockchain(
-                achievement["hash"],
-                "Student",
-                "SkillChain",
-                achievement["event"]
-                
-            )
-            
 
-            achievement["txid"] = result.get("transactionID")
-            achievement["status"] = "verified"
+    return """
+    <h2 style='color:red;text-align:center;margin-top:40px;'>
+    NOT VERIFIED  <br>
+    Certificate does not exist on SkillChain
+    </h2>
+    """
 
-    write_db(db)
-
-    return {"msg": "Verification complete"}
 
 
 @app.route("/form")

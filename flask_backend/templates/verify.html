@@ -1,0 +1,80 @@
+<style>
+    body {
+    
+        background-color: #eaf6ff;
+        font-size: 150%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        margin: 0;
+    }
+
+    .form-box {
+        background-color: white;
+        width: 50%;
+        height: 75%;
+        padding: 40px;
+        border-radius: 12px;
+        box-sizing: border-box;
+        overflow-y: auto;
+    }
+
+    h2 {
+        text-align: center;
+    }
+
+    input {
+        font-size: 90%;
+        padding: 6px;
+        width: 100%;
+        box-sizing: border-box;
+    }
+
+    .note {
+        font-size: 70%;
+        color: gray;
+        margin-top: -10px;
+        margin-bottom: 20px;
+    }
+
+    .btn {
+        margin-top: 15px;
+        cursor: pointer;
+        font-size: 80%;
+        padding: 8px;
+        width: 100%;
+    }
+</style>
+<body>
+
+<div class="form-box">
+
+    <h2>Verify Certificate</h2>
+
+    <p style="text-align:center; color:gray;">
+        Upload a certificate image to check if it exists on SkillChain.
+    </p>
+
+    <br>
+
+    <form action="/verify" method="POST" enctype="multipart/form-data">
+
+        <label>Upload Certificate:</label><br>
+        <input type="file" name="certificate" required><br>
+        <p class="note">Upload the certificate you want to verify.</p>
+
+        <button class="btn">Verify Certificate</button>
+
+    </form>
+
+    <br><br>
+
+    <a href="/welcome">
+        <button class="btn">Back to Dashboard</button>
+    </a>
+
+</div>
+
+</body>
+

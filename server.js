@@ -1,3 +1,4 @@
+global.fetch = require('node-fetch');
 const express = require('express');
 const crypto = require('crypto');
 const { storeHash } = require('./algorand');
@@ -11,23 +12,19 @@ app.get('/', (req, res) => {
 });
 
 // issue certificate
+// issue certificate (store fingerprint on blockchain)
 app.post('/issue', async (req, res) => {
     try {
-        const { name, skill, issuer } = req.body;
 
-        console.log("Received:", name, skill, issuer);
+        const { hash } = req.body;
 
-        // combine certificate data
-        const data = name + skill + issuer;
+        if (!hash) {
+            return res.status(400).json({ error: "No hash provided" });
+        }
 
-        // create fingerprint (certificate hash)
-        const hash = crypto.createHash('sha256')
-            .update(data)
-            .digest('hex');
+        console.log("Received certificate hash from Flask:", hash);
 
-        console.log("Generated hash:", hash);
-
-        // send hash to blockchain
+        // store SAME hash on blockchain
         const txId = await storeHash(hash);
 
         console.log("Transaction ID:", txId);
@@ -47,27 +44,5 @@ app.post('/issue', async (req, res) => {
     }
 });
 
-app.post("/verify", async (req, res) => {
-    const { hash, creator, teammate } = req.body;
-
-    try {
-        // Combine verification data
-        const verificationData = `${creator}:${teammate}:${hash}`;
-
-        // Hash again for tamper-proof storage
-        const verificationHash = crypto
-            .createHash("sha256")
-            .update(verificationData)
-            .digest("hex");
-
-        // Store on Algorand
-        const txid = await storeHash(verificationHash);
-
-        res.json({ txid });
-    } catch (err) {
-        console.error(err);
-        res.status(500).json({ error: "Transaction failed" });
-    }
-});
 
 app.listen(3000, () => console.log("Server started on port 3000"));
