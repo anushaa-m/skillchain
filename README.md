@@ -2,7 +2,7 @@
 
 ## ⚠️ IMPORTANT FOR JUDGES / REVIEWERS
 
-**Please evaluate the project using the `integration-safe-backup` branch.**
+**Please evaluate the project using the `demo-release` branch.**
 
 The `main` branch contains experimental frontend commits and is not the stable build.
 
