@@ -1,4 +1,4 @@
-# IdenPro — Blockchain Certificate Verification (Algorand)
+# SkillChain — Blockchain Certificate Verification (Algorand)
 
 A tamper-proof digital certificate verification platform built using **Flask + Node.js + Algorand Blockchain + Docker**.
 
